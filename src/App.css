@@ -1,0 +1,12 @@
+.link {
+    margin-right: 20px;
+    text-decoration: none;
+    box-shadow: inset 0 0 0 0 #105670;
+    color: #105670;
+    transition: color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.link:hover {
+    box-shadow: inset 100px 0 0 0 #105670;
+    color: white;
+}
