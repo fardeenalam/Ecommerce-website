@@ -20,42 +20,54 @@
 
 pipeline {
     agent any
-
-    environment {
-        // Reference the NodeJS installation by name
-        NODEJS_HOME = tool name: 'NodeJS', type: 'Tool'
-        PATH = "${NODEJS_HOME}/bin:${PATH}"
-    }
-
+    
     stages {
+        stage('Checkout') {
+            steps {
+                // Check out the source code from your Git repository
+                checkout scm
+            }
+        }
+        
         stage('Build') {
             steps {
                 script {
-                    // Use Node.js and npm
-                    sh 'node -v'
-                    sh 'npm -v'
-
-                    // Install project dependencies
-                    sh 'npm install'
-
-                    // Build your project
-                    sh 'npm run build'
+                    def npmPath = '/root/.nvm/versions/node/v14.21.3/bin/npm'
+                    def nodePath = '/root/.nvm/versions/node/v14.21.3/bin/node'
+                    
+                    // Install dependencies and build the React app using specific npm and Node.js versions
+                    sh "${npmPath} install"
+                    sh "${npmPath} run build"
                 }
             }
         }
-
+        
         stage('Deploy') {
             steps {
                 script {
-                    // Copy the built files to /home/ec2-user/amazon on your AWS instance using SSH
+                    def awsInstanceIP = credentials('IP')
+
+                    // Use the 'keyPair.pem' credential for SSH
                     sshagent(credentials: ['keyPair.pem']) {
-                        // Use the 'IP' credential for the EC2 instance's IP address
-                        sh 'scp -i keyPair.pem -r ./build ec2-user@' + credentials('IP') + ':/home/ec2-user/amazon'
+                        // Copy the built files to /home/ec2-user/amazon on your AWS instance using SSH
+                        sh "scp -i keyPair.pem -r ./build ec2-user@${awsInstanceIP}:/home/ec2-user/amazon"
                     }
                 }
             }
         }
     }
+    
+    post {
+        success {
+            // Add any post-deployment steps or notifications here
+            echo 'Deployment successful'
+        }
+        failure {
+            // Handle deployment failures here
+            echo 'Deployment failed'
+        }
+    }
 }
+
 
 
