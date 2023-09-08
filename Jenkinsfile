@@ -27,14 +27,6 @@ pipeline {
         PATH = "${NODEJS_HOME}/bin:${PATH}"
     }
 
-    stages {
-        stage('Checkout') {
-            steps {
-                // Checkout your code from source control
-                // ...
-            }
-        }
-
         stage('Build') {
             steps {
                 // Use Node.js and npm
