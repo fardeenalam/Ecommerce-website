@@ -2,9 +2,23 @@ pipeline {
     agent any
 
     stages {
+        stage('Install Node.js and npm') {
+            steps {
+                script {
+                    // Install Node.js and npm on Amazon Linux 2 using the updated link
+                    sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash'
+                    sh 'source ~/.nvm/nvm.sh'
+                    sh 'nvm install 14'  // Install Node.js version 14
+                    sh 'nvm use 14'
+                    sh 'npm -v'          // Verify npm installation
+                    sh 'node -v'         // Verify Node.js installation
+                }
+            }
+        }
+
         stage('Build') {
             steps {
-                // Install dependencies and build the React app
+                // Install dependencies and build the React app in the root directory
                 sh 'npm install'
                 sh 'npm run build'
             }
