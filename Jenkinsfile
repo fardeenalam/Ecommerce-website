@@ -5,8 +5,8 @@ pipeline {
         stage('Build') {
             steps {
                 // Install dependencies and build the React app
-                sh 'npm install'
-                sh 'npm run build'
+                sh '/root/.nvm/versions/node/v14.21.3/bin/npm install'
+                sh '/root/.nvm/versions/node/v14.21.3/bin/npm run build'
             }
         }
 
