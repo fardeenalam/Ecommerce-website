@@ -23,7 +23,7 @@ pipeline {
 
     environment {
         // Reference the NodeJS installation by name
-        NODEJS_HOME = tool name: 'NodeJS v20', type: 'Tool'
+        NODEJS_HOME = tool name: 'NodeJS', type: 'Tool'
         PATH = "${NODEJS_HOME}/bin:${PATH}"
     }
 
