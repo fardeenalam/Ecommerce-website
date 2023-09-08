@@ -27,24 +27,27 @@ pipeline {
         PATH = "${NODEJS_HOME}/bin:${PATH}"
     }
 
+    stages {
         stage('Build') {
             steps {
-                // Use Node.js and npm
-                sh 'node -v'
-                sh 'npm -v'
+                script {
+                    // Use Node.js and npm
+                    sh 'node -v'
+                    sh 'npm -v'
 
-                // Install project dependencies
-                sh 'npm install'
+                    // Install project dependencies
+                    sh 'npm install'
 
-                // Build your project
-                sh 'npm run build'
+                    // Build your project
+                    sh 'npm run build'
+                }
             }
         }
 
         stage('Deploy') {
             steps {
-                // Copy the built files to /home/ec2-user/amazon on your AWS instance using SSH
                 script {
+                    // Copy the built files to /home/ec2-user/amazon on your AWS instance using SSH
                     sshagent(credentials: ['keyPair.pem']) {
                         // Use the 'IP' credential for the EC2 instance's IP address
                         sh 'scp -i keyPair.pem -r ./build ec2-user@' + credentials('IP') + ':/home/ec2-user/amazon'
@@ -52,5 +55,7 @@ pipeline {
                 }
             }
         }
+    }
 }
+
 
