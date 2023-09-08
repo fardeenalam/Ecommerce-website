@@ -21,12 +21,31 @@
 pipeline {
     agent any
 
+    environment {
+        // Reference the NodeJS installation by name
+        NODEJS_HOME = tool name: 'NodeJS v20', type: 'Tool'
+        PATH = "${NODEJS_HOME}/bin:${PATH}"
+    }
+
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your code from source control
+                // ...
+            }
+        }
+
         stage('Build') {
             steps {
-                // Install dependencies and build the React app
-                sh '/home/ec2-user/.nvm/versions/node/v14.21.3/bin/npm install'
-                sh '/home/ec2-user/.nvm/versions/node/v14.21.3/bin/npm run build'
+                // Use Node.js and npm
+                sh 'node -v'
+                sh 'npm -v'
+
+                // Install project dependencies
+                sh 'npm install'
+
+                // Build your project
+                sh 'npm run build'
             }
         }
 
