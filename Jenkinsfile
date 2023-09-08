@@ -1,13 +1,19 @@
 pipeline {
     agent any
 
+    environment {
+        // Set the NVM_DIR environment variable
+        NVM_DIR = '/var/lib/jenkins/.nvm'
+    }
+
     stages {
         stage('Install Node.js and npm') {
             steps {
                 script {
                     // Install Node.js and npm on Amazon Linux 2 using the updated link
                     sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash'
-                    sh 'source ~/.nvm/nvm.sh'
+                    sh 'export NVM_DIR="$HOME/.nvm"'
+                    sh '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
                     sh 'nvm install 14'  // Install Node.js version 14
                     sh 'nvm use 14'
                     sh 'npm -v'          // Verify npm installation
