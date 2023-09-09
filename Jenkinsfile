@@ -35,7 +35,7 @@ pipeline {
         stage('Install Node.js') {
             steps {
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash'
-                sh 'export NVM_DIR="$HOME/.nvm"'
+                sh 'export NVM_DIR="/var/jenkins_home/.nvm"' // Specify the correct path
                 sh '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm'
                 sh 'nvm install 16'
                 sh 'nvm use 16'
