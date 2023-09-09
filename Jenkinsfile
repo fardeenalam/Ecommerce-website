@@ -19,43 +19,40 @@
 
 
 
+
+
+
 pipeline {
-    agent any
+    agent {
+        docker {
+            // Use an appropriate Node.js image with your desired version
+            image 'node:14' // You can specify the version here
+        }
+    }
 
     stages {
-
-        stage('Build Docker Image') {
+        stage('Checkout') {
             steps {
-                // Build the Docker image using the Dockerfile in the project root directory
-                script {
-                    def dockerImage = docker.build('amazon-clone:latest', '.')
-                }
+                // Check out the source code from your Git repository
+                checkout scm
             }
         }
-
-        stage('Build and Deploy') {
+        
+        stage('Build') {
             steps {
-                // Use the Docker image to execute npm commands
-                script {
-                    dockerImage.inside('-v /var/run/docker.sock:/var/run/docker.sock') {
-                        // Install project dependencies
-                        sh 'npm install'
-
-                        // Build your project
-                        sh 'npm run build'
-                    }
-                }
+                sh 'npm install'
+                sh 'npm run build'
             }
         }
 
         stage('Deploy') {
             steps {
-                // Copy the built files to /home/ec2-user/amazon on your AWS instance using SSH
                 script {
                     def awsInstanceIP = credentials('IP')
 
                     // Use the 'keyPair.pem' credential for SSH
                     sshagent(credentials: ['keyPair.pem']) {
+                        // Copy the built files to /home/ec2-user/amazon on your AWS instance using SSH
                         sh "scp -i keyPair.pem -r ./build ec2-user@${awsInstanceIP}:/home/ec2-user/amazon"
                     }
                 }
@@ -72,8 +69,6 @@ pipeline {
         }
     }
 }
-
-
 
 
 
