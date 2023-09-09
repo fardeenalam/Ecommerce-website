@@ -31,10 +31,14 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+
+        stage('Install Node.js') {
             steps {
-                // Check out the source code from your Git repository
-                checkout scm
+                sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash'
+                sh 'export NVM_DIR="$HOME/.nvm"'
+                sh '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh"  # This loads nvm'
+                sh 'nvm install 16'
+                sh 'nvm use 16'
             }
         }
         
