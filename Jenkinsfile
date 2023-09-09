@@ -26,7 +26,7 @@ pipeline {
     agent {
         docker {
             // Use an appropriate Node.js image with your desired version
-            image 'node:14' // You can specify the version here
+            image 'node:16' // You can specify the version here
         }
     }
 
