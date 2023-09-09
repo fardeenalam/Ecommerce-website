@@ -32,7 +32,7 @@ pipeline {
 
     stages {
 
-        stage('Install Node.js') {
+        // stage('Install Node.js') {
         //     steps {
         //         sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash'
         //         sh 'export NVM_DIR="/var/jenkins_home/.nvm"' // Specify the correct path
