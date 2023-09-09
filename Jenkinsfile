@@ -30,13 +30,6 @@ pipeline {
         }
     }
 
-    stages {
-
-        stage('Check User') {
-            steps {
-                sh 'whoami'
-        }
-}
 
         stage('Install Node.js') {
             steps {
