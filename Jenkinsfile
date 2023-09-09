@@ -30,6 +30,7 @@ pipeline {
         }
     }
 
+    stages {
 
         stage('Install Node.js') {
             steps {
