@@ -32,13 +32,6 @@ pipeline {
 
     stages {
 
-        stage('Create Jenkins Home Directory') {
-            steps {
-                sh 'mkdir -p /var/jenkins_home'
-                sh 'chmod 777 /var/jenkins_home' // Adjust permissions as needed
-            }
-        }
-
         stage('Install Node.js') {
             steps {
                 sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash'
