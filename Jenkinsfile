@@ -21,9 +21,7 @@
 pipeline {
     agent any
 
-    environment {
-        NPM_CONFIG_CACHE = "${WORKSPACE}/.npm"
-    }
+    tools {NodeJS "node"}
     
     stages {
         stage('Checkout') {
