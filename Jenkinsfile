@@ -33,14 +33,14 @@ pipeline {
     stages {
 
         stage('Install Node.js') {
-            steps {
-                sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash'
-                sh 'export NVM_DIR="/var/jenkins_home/.nvm"' // Specify the correct path
-                sh '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh" '
-                sh 'nvm install 16'
-                sh 'nvm use 16'
-            }
-        }
+        //     steps {
+        //         sh 'curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash'
+        //         sh 'export NVM_DIR="/var/jenkins_home/.nvm"' // Specify the correct path
+        //         sh '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh" '
+        //         sh 'nvm install 16'
+        //         sh 'nvm use 16'
+        //     }
+        // }
         
         stage('Build') {
             steps {
