@@ -33,13 +33,10 @@ pipeline {
         
         stage('Build') {
             steps {
-                script {
-                    def npmPath = '/root/.nvm/versions/node/v14.21.3/bin/npm'
-                    def nodePath = '/root/.nvm/versions/node/v14.21.3/bin/node'
-                    
+                script {                   
                     // Install dependencies and build the React app using specific npm and Node.js versions
-                    sh "${npmPath} install"
-                    sh "${npmPath} run build"
+                    sh 'npm install'
+                    sh 'npm run build'
                 }
             }
         }
