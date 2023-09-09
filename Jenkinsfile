@@ -18,6 +18,7 @@
 // npm -v
 
 
+
 pipeline {
     agent any
 
@@ -26,13 +27,6 @@ pipeline {
     }
     
     stages {
-        stage('Update npm') {
-            steps {
-                // Update npm to the latest version
-                sh 'npm install -g npm@latest'
-            }
-        }
-
         stage('Clear npm cache') {
             steps {
                 // Clear the npm cache
@@ -83,6 +77,7 @@ pipeline {
         }
     }
 }
+
 
 
 
