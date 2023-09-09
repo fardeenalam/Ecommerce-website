@@ -22,61 +22,57 @@
 pipeline {
     agent any
 
-    tools { 
-        nodejs "Node" // Reference the NodeJS installation by name
-    }
-    
     stages {
-        stage('Clear npm cache') {
-            steps {
-                // Clear the npm cache
-                sh 'npm cache clean --force'
-            }
-        }
 
-        stage('Checkout') {
+        stage('Build Docker Image') {
             steps {
-                // Check out the source code from your Git repository
-                checkout scm
-            }
-        }
-        
-        stage('Build') {
-            steps {
-                script {                   
-                    // Install dependencies and build the React app using specific npm and Node.js versions
-                    sh 'npm install'
-                    sh 'npm run build'
+                // Build the Docker image using the Dockerfile in the project root directory
+                script {
+                    def dockerImage = docker.build('amazon-clone:latest', '.')
                 }
             }
         }
-        
+
+        stage('Build and Deploy') {
+            steps {
+                // Use the Docker image to execute npm commands
+                script {
+                    dockerImage.inside('-v /var/run/docker.sock:/var/run/docker.sock') {
+                        // Install project dependencies
+                        sh 'npm install'
+
+                        // Build your project
+                        sh 'npm run build'
+                    }
+                }
+            }
+        }
+
         stage('Deploy') {
             steps {
+                // Copy the built files to /home/ec2-user/amazon on your AWS instance using SSH
                 script {
                     def awsInstanceIP = credentials('IP')
 
                     // Use the 'keyPair.pem' credential for SSH
                     sshagent(credentials: ['keyPair.pem']) {
-                        // Copy the built files to /home/ec2-user/amazon on your AWS instance using SSH
                         sh "scp -i keyPair.pem -r ./build ec2-user@${awsInstanceIP}:/home/ec2-user/amazon"
                     }
                 }
             }
         }
     }
-    
+
     post {
         success {
-            // Add any post-deployment steps or notifications here
             echo 'Deployment successful'
         }
         failure {
-            // Handle deployment failures here
             echo 'Deployment failed'
         }
     }
 }
+
 
 
 
