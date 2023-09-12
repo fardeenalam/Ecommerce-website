@@ -1,6 +1,7 @@
 import { ListItemSecondaryAction } from "@mui/material";
 import styled from "styled-components";
 import { mobile } from "../Responsive";
+import { Link } from "react-router-dom";
 
 const Container = styled.div`
     flex: 1;
@@ -13,9 +14,9 @@ const Image = styled.img`
     height: 100%;
     object-fit: cover;
     ${mobile({
-      height: "20vh"
+        height: "20vh",
     })}
-`
+`;
 
 const Info = styled.div`
     position: absolute;
@@ -27,13 +28,12 @@ const Info = styled.div`
     align-items: center;
     justify-content: center;
     flex-direction: column;
-`
+`;
 
 const Title = styled.h1`
     color: white;
     margin-bottom: 20px;
-
-`
+`;
 
 const Button = styled.button`
     border: none;
@@ -42,16 +42,18 @@ const Button = styled.button`
     color: gray;
     cursor: pointer;
     font-weight: 600;
-`
+`;
 
 const CategoryItem = ({ item }) => {
     return (
         <Container>
-            <Image src={item.img} />
-            <Info>
-                <Title>{item.title}</Title>
-                <Button>Shop Now</Button>
-            </Info>
+            <Link to={`/products/${item.cat}`}>
+                <Image src={item.img} />
+                <Info>
+                    <Title>{item.title}</Title>
+                    <Button>Shop Now</Button>
+                </Info>
+            </Link>
         </Container>
     );
 };
