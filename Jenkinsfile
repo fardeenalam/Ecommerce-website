@@ -23,12 +23,12 @@
 
 
 pipeline {
-    agent {
-        docker {
-            // Use an appropriate Node.js image with your desired version
-            image 'node:16' // You can specify the version here
-        }
+    agent any
+
+    tools {
+        nodejs 'Node'
     }
+    
 
     stages {
 
@@ -39,6 +39,13 @@ pipeline {
         //         sh '[ -s "$NVM_DIR/nvm.sh" ] && source "$NVM_DIR/nvm.sh" '
         //         sh 'nvm install 16'
         //         sh 'nvm use 16'
+        //     }
+        // }
+
+        // stage('Checkout') {
+        //     steps {
+        //         // Checkout the 'main' branch from the Git repository
+        //         git branch: 'main', url: 'https://github.com/fardeenalam/Ecommerce-website.git'
         //     }
         // }
         
